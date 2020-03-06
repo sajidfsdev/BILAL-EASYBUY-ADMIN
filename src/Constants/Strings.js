@@ -1,5 +1,5 @@
 export default {
   sessionStorage: "EPA-MEM",
-  server: "http://localhost:3000",
+  server: "https://easybuyapi.herokuapp.com",
   securityHeader: "x-auth-eptoken"
 };
