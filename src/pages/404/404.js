@@ -1,0 +1,9 @@
+import React from "react";
+
+const FourOFour = props => {
+  //return statement starts...
+  return <div>404 Page Under Construction</div>;
+  //return statement ends.....
+}; //........................
+
+export default FourOFour;
