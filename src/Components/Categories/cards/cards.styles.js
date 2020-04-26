@@ -1,6 +1,6 @@
 import { makeStyles } from "@material-ui/core/styles";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   card: {
     padding: "20px",
     display: "flex",
@@ -9,7 +9,7 @@ const useStyles = makeStyles(theme => ({
     maxWidth: "fit-content",
     minWidth: "230px",
     overflow: "auto",
-    height: "auto"
+    height: "auto",
   },
 
   iconBox: {
@@ -20,7 +20,7 @@ const useStyles = makeStyles(theme => ({
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
-    cursor: "pointer"
+    cursor: "pointer",
   },
   text: {
     width: "80%",
@@ -31,8 +31,24 @@ const useStyles = makeStyles(theme => ({
     justifyContent: "center",
     alignItems: "center",
     textOverflow: "ellipsis",
-    cursor: "pointer"
-  }
+    cursor: "pointer",
+  },
+  btnRow: {
+    width: "100%",
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "flex-end",
+  },
+
+  deleteBtn: {
+    backgroundColor: "red",
+    "&:hover": {
+      backgroundColor: "red",
+    },
+  },
+  cancelBtn: {
+    backgroundColor: theme.palette.primary.main,
+  },
 }));
 
 export default useStyles;

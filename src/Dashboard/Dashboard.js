@@ -118,32 +118,7 @@ const Dashboard = props => {
             </IconButton>
           </div>
           <Divider />
-          <List>
-            {/* <NavLink
-              style={{
-                textDecoration: "none",
-                color: theme.palette.primary.main
-              }}
-              to="/"
-              onClick={() => {
-                setActiveNav("/");
-              }}
-              exact
-              activeStyle={{
-                color: theme.palette.secondary.main,
-                textDecoration: "none"
-              }}
-            >
-              <ListItem button>
-                <ListItemIcon id="ELXHOME">
-                  <HomeIcon
-                    color={activeNav === "/" ? "secondary" : "primary"}
-                  />
-                </ListItemIcon>
-                <ListItemText primary={"Home"} />
-              </ListItem>
-            </NavLink> */}
-          </List>
+          <List></List>
           <Divider />
           <List>
             <NavLink

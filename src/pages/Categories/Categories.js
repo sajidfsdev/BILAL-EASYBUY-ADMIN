@@ -13,7 +13,7 @@ import * as AppTypes from "./../../Store/Constants/App";
 import * as CatActions from "./../../Store/Action/cat";
 import BreadCrumb from "./../../Components/Categories/BreadCrumb/BreadCrumb";
 
-const Categories = props => {
+const Categories = (props) => {
   //styles init...
   const classes = useStyles();
   //..............
@@ -23,18 +23,20 @@ const Categories = props => {
 
   //state management starts......
   const [breadCrumb, setBreadCrumb] = useState([
-    { showData: "cat", title: "Categories" } //type means the active data to show
+    { showData: "cat", title: "Categories" }, //type means the active data to show
   ]);
 
   //state management...
-  const catBufferring_RP = useSelector(state => state.app.catBufferring);
-  const catBtnBufferring_RP = useSelector(state => state.app.catBtnBufferring);
-  const cat_RP = useSelector(state => state.cat.cat);
-  const subCat_RP = useSelector(state => state.cat.subCat);
-  const subSubCat_RP = useSelector(state => state.cat.subSubCat);
-  const cat_isError_RP = useSelector(state => state.cat.isError);
-  const cat_errorMessage_RP = useSelector(state => state.cat.errorMessage);
-  const token_RP = useSelector(state => state.auth.token);
+  const catBufferring_RP = useSelector((state) => state.app.catBufferring);
+  const catBtnBufferring_RP = useSelector(
+    (state) => state.app.catBtnBufferring
+  );
+  const cat_RP = useSelector((state) => state.cat.cat);
+  const subCat_RP = useSelector((state) => state.cat.subCat);
+  const subSubCat_RP = useSelector((state) => state.cat.subSubCat);
+  const cat_isError_RP = useSelector((state) => state.cat.isError);
+  const cat_errorMessage_RP = useSelector((state) => state.cat.errorMessage);
+  const token_RP = useSelector((state) => state.auth.token);
   const dispatch_RP = useDispatch();
   const [currentData, setCurrentData] = useState("cat"); //which thing to show....
   const [inputState, setInputState] = useState("");
@@ -42,11 +44,101 @@ const Categories = props => {
   const [activeSubCat, setActiveSubCat] = useState("");
   const [activeSubSubCat, setActiveSubSubCat] = useState("");
 
+  //Delete operations...
+  const handleDeleteCategories = (elem) => {
+    if (currentData == "cat") {
+      dispatch_RP({
+        type: AppTypes.STARTCATBTNBUFFERRING,
+      });
+      dispatch_RP(
+        CatActions.handleDeleteCat(
+          elem.cat,
+          elem._id,
+          token_RP,
+          successCB,
+          failCB
+        )
+      );
+    } else if (currentData == "subCat") {
+      dispatch_RP({
+        type: AppTypes.STARTCATBTNBUFFERRING,
+      });
+      dispatch_RP(
+        CatActions.handleDeleteSubCat(
+          elem.cat,
+          elem.subCat,
+          elem._id,
+          token_RP,
+          successCB,
+          failCB
+        )
+      );
+    } else if (currentData == "subSubCat") {
+      dispatch_RP({
+        type: AppTypes.STARTCATBTNBUFFERRING,
+      });
+      dispatch_RP(
+        CatActions.handleDeleteSubSubCat(
+          elem.cat,
+          elem.subCat,
+          elem.subSubCat,
+          elem._id,
+          token_RP,
+          successCB,
+          failCB
+        )
+      );
+    }
+  };
+  //....................Delete Categories ends;
+
+  //Edit Operations starts....
+  const handleEditCategories = (value, oldValue, id) => {
+    dispatch_RP({
+      type: AppTypes.STARTCATBTNBUFFERRING,
+    });
+    if (currentData === "cat") {
+      dispatch_RP(
+        CatActions.handleEditCat(
+          value,
+          oldValue,
+          id,
+          token_RP,
+          successCB,
+          failCB
+        )
+      );
+    } else if (currentData === "subCat") {
+      dispatch_RP(
+        CatActions.handleEditSubcat(
+          value,
+          oldValue,
+          id,
+          token_RP,
+          successCB,
+          failCB
+        )
+      );
+    } else if (currentData === "subSubCat") {
+      dispatch_RP(
+        CatActions.handleEditSubSubcat(
+          value,
+          oldValue,
+          id,
+          token_RP,
+          successCB,
+          failCB
+        )
+      );
+    }
+  };
+  //Edit operations ends......
+
   //Methods starts...
-  const handleFormSubmission = event => {
+  const handleFormSubmission = (event) => {
     event.preventDefault();
     dispatch_RP({
-      type: AppTypes.STARTCATBTNBUFFERRING
+      type: AppTypes.STARTCATBTNBUFFERRING,
     });
     if (currentData === "cat") {
       dispatch_RP(
@@ -76,7 +168,7 @@ const Categories = props => {
     }
   };
 
-  const handleInputChange = event => {
+  const handleInputChange = (event) => {
     setInputState(event.target.value);
   };
 
@@ -84,12 +176,12 @@ const Categories = props => {
     enqueueSnackbar(message, { variant });
   };
 
-  const successCB = message => {
+  const successCB = (message) => {
     enqueueSnackbar(message, { variant: "success" });
     setInputState("");
   };
 
-  const failCB = message => {
+  const failCB = (message) => {
     enqueueSnackbar(message, { variant: "error" });
     setInputState("");
   };
@@ -118,18 +210,18 @@ const Categories = props => {
     }
   };
 
-  const handleCardClick = elem => {
+  const handleCardClick = (elem) => {
     if (elem.type === "cat") {
       setCurrentData("subCat");
       setActiveCat(elem.cat);
       let oldBreadCrumbs = [...breadCrumb];
       let newBreadCrumb = oldBreadCrumbs.filter(
-        elem => elem.showData !== "subCat"
+        (elem) => elem.showData !== "subCat"
       );
       newBreadCrumb.push({
         showData: "subCat",
         title: elem.cat,
-        cat: elem.cat
+        cat: elem.cat,
       });
       setBreadCrumb([...newBreadCrumb]);
     } else if (elem.type === "subCat") {
@@ -138,13 +230,13 @@ const Categories = props => {
       setActiveSubCat(elem.subCat);
       let oldBreadCrumbs = [...breadCrumb];
       let newBreadCrumb = oldBreadCrumbs.filter(
-        elem => elem.showData !== "subSubCat"
+        (elem) => elem.showData !== "subSubCat"
       );
       newBreadCrumb.push({
         showData: "subSubCat",
         title: elem.subCat,
         cat: elem.cat,
-        subCat: elem.subCat
+        subCat: elem.subCat,
       });
       setBreadCrumb([...newBreadCrumb]);
     } else {
@@ -160,27 +252,45 @@ const Categories = props => {
   if (currentData === "cat") {
     Mapper = cat_RP.map((elem, index) => {
       return (
-        <Card handleCardClick={handleCardClick} elem={elem} key={index}>
+        <Card
+          edit={handleEditCategories}
+          delete={handleDeleteCategories}
+          handleCardClick={handleCardClick}
+          elem={elem}
+          key={index}
+        >
           {elem.cat}
         </Card>
       );
     });
   } else if (currentData === "subCat") {
     Mapper = subCat_RP
-      .filter(elem => elem.cat === activeCat)
+      .filter((elem) => elem.cat === activeCat)
       .map((elem, index) => {
         return (
-          <Card handleCardClick={handleCardClick} elem={elem} key={index}>
+          <Card
+            edit={handleEditCategories}
+            delete={handleDeleteCategories}
+            handleCardClick={handleCardClick}
+            elem={elem}
+            key={index}
+          >
             {elem.subCat}
           </Card>
         );
       });
   } else if (currentData === "subSubCat") {
     Mapper = subSubCat_RP
-      .filter(elem => elem.cat === activeCat && elem.subCat === activeSubCat)
+      .filter((elem) => elem.cat === activeCat && elem.subCat === activeSubCat)
       .map((elem, index) => {
         return (
-          <Card handleCardClick={handleCardClick} elem={elem} key={index}>
+          <Card
+            edit={handleEditCategories}
+            delete={handleDeleteCategories}
+            handleCardClick={handleCardClick}
+            elem={elem}
+            key={index}
+          >
             {elem.subSubCat}
           </Card>
         );
