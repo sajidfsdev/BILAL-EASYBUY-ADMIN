@@ -1,0 +1,9 @@
+export const VENDORS_SCREEN = "VENDORS SCREEN";
+export const BUYERS_SCREEN = "BUYERS SCREEN";
+export const LOADING_SCREEN = "LOADING SCREEN";
+export const SEARCH_BY_NAME = "NAME";
+export const SEARCH_BY_EMAIL = "EMAIL";
+export const SEARCH_BY_CONTACT = "CONTACT";
+export const SEARCH_BY_CITY = "CITY";
+export const ADS_SCREEN = "ADS SCREEN";
+export const DEFAULT_SCREEN = "DEFAULT SCREEN";

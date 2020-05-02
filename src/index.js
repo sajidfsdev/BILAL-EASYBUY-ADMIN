@@ -12,13 +12,17 @@ import thunk from "redux-thunk";
 import AuthReducer from "./Store/Reducer/Auth";
 import AppReducer from "./Store/Reducer/App";
 import CatReducer from "./Store/Reducer/cat";
+import ProfileReducer from "./Store/Reducer/Profile";
+import TrafficReducer from "./Store/Reducer/Traffic";
 //Redux imports ends here........
 
 //Reux management starts here.....
 const rootReducer = combineReducers({
   auth: AuthReducer,
   app: AppReducer,
-  cat: CatReducer
+  cat: CatReducer,
+  profile: ProfileReducer,
+  traffic: TrafficReducer,
 });
 
 const store = createStore(rootReducer, compose(applyMiddleware(thunk)));

@@ -3,7 +3,7 @@ import clsx from "clsx";
 import {
   createMuiTheme,
   ThemeProvider,
-  useTheme
+  useTheme,
 } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
 import AppBar from "@material-ui/core/AppBar";
@@ -29,29 +29,44 @@ import FourOFourPage from "./../pages/404/404";
 import { useSelector, useDispatch } from "react-redux";
 import * as AppTypes from "./../Store/Constants/App";
 import * as CatActions from "./../Store/Action/cat";
+import Tooltip from "@material-ui/core/Tooltip";
+import ProfilePage from "./../pages/Profile/Profile";
+import MeetingRoomIcon from "@material-ui/icons/MeetingRoom";
+import TrafficIcon from "@material-ui/icons/Traffic";
+import DraggableDialogue from "./../UI/DraggableDialogue/DraggableDialogue";
+import TrafficPage from "./../pages/Traffic/Traffic";
+import Button from "./../UI/Button/ELXButton";
+import * as AuthTypes from "./../Store/Constants/Auth";
+import * as AuthActions from "./../Store/Action/Auth";
+import { useLocation } from "react-router-dom";
+import EqualizerIcon from "@material-ui/icons/Equalizer";
+import StatsPage from "./../pages/Stats/Stats";
 
 const MyTheme = createMuiTheme({
   overrides: {
     MuiAppBar: {
-      root: {}
-    }
+      root: {},
+    },
   },
   palette: {
     primary: {
-      main: "#1c7ba2"
-    }
-  }
+      main: "#1c7ba2",
+    },
+  },
 });
-const Dashboard = props => {
+const Dashboard = (props) => {
   const classes = useStyles();
   const theme = useTheme();
+  const location = useLocation();
   const [open, setOpen] = React.useState(false);
-  const [activeNav, setActiveNav] = useState("/");
-  const token_RP = useSelector(state => state.auth.token);
+  const [activeNav, setActiveNav] = useState("");
+  const token_RP = useSelector((state) => state.auth.token);
+  const [openConfirm, setConfirm] = useState(false);
   const dispatch = useDispatch();
 
   //use effect starts.....
   useEffect(() => {
+    setActiveNav(location.pathname);
     handleLoadinAllCats();
   }, []);
 
@@ -70,12 +85,40 @@ const Dashboard = props => {
 
   return (
     <ThemeProvider theme={MyTheme}>
+      <DraggableDialogue
+        title="Are you sure you want to logout?"
+        open={openConfirm}
+        handleClose={() => {
+          setConfirm(false);
+        }}
+      >
+        <div
+          style={{
+            width: "100%",
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "flex-end",
+            marginTop: "5px",
+            marginBottom: "5px",
+          }}
+        >
+          <Button
+            size="small"
+            onClick={() => dispatch(AuthActions.handleLogout())}
+          >
+            Confirm
+          </Button>
+          <Button size="small" onClick={() => setConfirm(false)}>
+            Cancel
+          </Button>
+        </div>
+      </DraggableDialogue>
       <div className={classes.root}>
         <CssBaseline />
         <AppBar
           position="fixed"
           className={clsx(classes.appBar, {
-            [classes.appBarShift]: open
+            [classes.appBarShift]: open,
           })}
         >
           <Toolbar>
@@ -85,27 +128,50 @@ const Dashboard = props => {
               onClick={handleDrawerOpen}
               edge="start"
               className={clsx(classes.menuButton, {
-                [classes.hide]: open
+                [classes.hide]: open,
               })}
             >
               <MenuIcon />
             </IconButton>
-            <Typography variant="h6" noWrap>
-              Dashboard
-            </Typography>
+
+            <div
+              style={{
+                width: "100%",
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              <Typography variant="h6" noWrap>
+                Dashboard
+              </Typography>
+              <Tooltip title="Logout">
+                <MeetingRoomIcon
+                  onClick={() => {
+                    setConfirm(true);
+                  }}
+                  style={{
+                    fontSize: "25px",
+                    color: "#fff",
+                    cursor: "pointer",
+                  }}
+                />
+              </Tooltip>
+            </div>
           </Toolbar>
         </AppBar>
         <Drawer
           variant="permanent"
           className={clsx(classes.drawer, {
             [classes.drawerOpen]: open,
-            [classes.drawerClose]: !open
+            [classes.drawerClose]: !open,
           })}
           classes={{
             paper: clsx({
               [classes.drawerOpen]: open,
-              [classes.drawerClose]: !open
-            })
+              [classes.drawerClose]: !open,
+            }),
           }}
         >
           <div className={classes.toolbar}>
@@ -118,7 +184,7 @@ const Dashboard = props => {
             </IconButton>
           </div>
           <Divider />
-          <List></List>
+          {/* <List></List> */}
           <Divider />
           <List>
             <NavLink
@@ -129,30 +195,91 @@ const Dashboard = props => {
               exact
               activeStyle={{
                 color: "red",
-                textDecoration: "none"
+                textDecoration: "none",
               }}
             >
-              <ListItem button>
-                <ListItemIcon>
-                  <CategoryIcon
-                    color={
-                      activeNav === "/categories" ? "secondary" : "primary"
-                    }
-                  />
-                </ListItemIcon>
-                <ListItemText primary={"Categories"} />
-              </ListItem>
+              <Tooltip title="Categories" placement="right">
+                <ListItem button>
+                  <ListItemIcon>
+                    <CategoryIcon
+                      color={activeNav === "/" ? "secondary" : "primary"}
+                    />
+                  </ListItemIcon>
+                  <ListItemText primary={"Categories"} />
+                </ListItem>
+              </Tooltip>
+            </NavLink>
+
+            <NavLink
+              to="/profile"
+              onClick={() => {
+                setActiveNav("/profile");
+              }}
+              exact
+              activeStyle={{
+                color: "red",
+                textDecoration: "none",
+              }}
+            >
+              <Tooltip title="Profile" placement="right">
+                <ListItem button>
+                  <ListItemIcon>
+                    <PermContactCalendarIcon
+                      color={activeNav === "/profile" ? "secondary" : "primary"}
+                    />
+                  </ListItemIcon>
+                  <ListItemText primary={"Profile"} />
+                </ListItem>
+              </Tooltip>
+            </NavLink>
+
+            <NavLink
+              to="/traffic"
+              onClick={() => {
+                setActiveNav("/traffic");
+              }}
+              exact
+              activeStyle={{
+                color: "red",
+                textDecoration: "none",
+              }}
+            >
+              <Tooltip title="Traffic" placement="right">
+                <ListItem button>
+                  <ListItemIcon>
+                    <TrafficIcon
+                      color={activeNav === "/traffic" ? "secondary" : "primary"}
+                    />
+                  </ListItemIcon>
+                  <ListItemText primary={"Traffic"} />
+                </ListItem>
+              </Tooltip>
+            </NavLink>
+            <NavLink
+              to="/stats"
+              onClick={() => {
+                setActiveNav("/stats");
+              }}
+              exact
+              activeStyle={{
+                color: "red",
+                textDecoration: "none",
+              }}
+            >
+              <Tooltip title="Statistics" placement="right">
+                <ListItem button>
+                  <ListItemIcon>
+                    <EqualizerIcon
+                      color={activeNav === "/stats" ? "secondary" : "primary"}
+                    />
+                  </ListItemIcon>
+                  <ListItemText primary={"Statistics"} />
+                </ListItem>
+              </Tooltip>
             </NavLink>
           </List>
           <Divider />
-          <List>
-            <ListItem button>
-              <ListItemIcon>
-                <PermContactCalendarIcon color="primary" />
-              </ListItemIcon>
-              <ListItemText primary={"Profile"} />
-            </ListItem>
-          </List>
+
           <Divider />
         </Drawer>
         <main className={classes.content}>
@@ -160,24 +287,11 @@ const Dashboard = props => {
 
           <Switch>
             <Route exact path="/" component={CategoryPage} />
+            <Route exact path="/profile" component={ProfilePage} />
+            <Route exact path="/traffic" component={TrafficPage} />
+            <Route exact path="/stats" component={StatsPage} />
             <Route component={FourOFourPage} />
           </Switch>
-
-          {/* <Typography paragraph>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus
-            dolor purus non enim praesent elementum facilisis leo vel. Risus at
-            ultrices mi tempus imperdiet. Semper risus in hendrerit gravida
-            rutrum quisque non tellus. Convallis convallis tellus id interdum
-            velit laoreet id donec ultrices. Odio morbi quis commodo odio aenean
-            sed adipiscing. Amet nisl suscipit adipiscing bibendum est ultricies
-            integer quis. Cursus euismod quis viverra nibh cras. Metus vulputate
-            eu scelerisque felis imperdiet proin fermentum leo. Mauris commodo
-            quis imperdiet massa tincidunt. Cras tincidunt lobortis feugiat
-            vivamus at augue. At augue eget arcu dictum varius duis at
-            consectetur lorem. Velit sed ullamcorper morbi tincidunt. Lorem
-            donec massa sapien faucibus et molestie ac.
-          </Typography> */}
         </main>
       </div>
     </ThemeProvider>
