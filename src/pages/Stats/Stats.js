@@ -7,7 +7,7 @@ const Stats = (props) => {
 
   return (
     <React.Fragment>
-      <Row>Stats page under construction</Row>
+      <Row className={classes.topBar}></Row>
     </React.Fragment>
   );
 }; //...................Stats

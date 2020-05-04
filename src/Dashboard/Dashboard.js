@@ -41,6 +41,8 @@ import * as AuthActions from "./../Store/Action/Auth";
 import { useLocation } from "react-router-dom";
 import EqualizerIcon from "@material-ui/icons/Equalizer";
 import StatsPage from "./../pages/Stats/Stats";
+import EmailIcon from "@material-ui/icons/Email";
+import MessageScreen from "./../pages/Messages/Messages";
 
 const MyTheme = createMuiTheme({
   overrides: {
@@ -211,29 +213,6 @@ const Dashboard = (props) => {
             </NavLink>
 
             <NavLink
-              to="/profile"
-              onClick={() => {
-                setActiveNav("/profile");
-              }}
-              exact
-              activeStyle={{
-                color: "red",
-                textDecoration: "none",
-              }}
-            >
-              <Tooltip title="Profile" placement="right">
-                <ListItem button>
-                  <ListItemIcon>
-                    <PermContactCalendarIcon
-                      color={activeNav === "/profile" ? "secondary" : "primary"}
-                    />
-                  </ListItemIcon>
-                  <ListItemText primary={"Profile"} />
-                </ListItem>
-              </Tooltip>
-            </NavLink>
-
-            <NavLink
               to="/traffic"
               onClick={() => {
                 setActiveNav("/traffic");
@@ -277,6 +256,50 @@ const Dashboard = (props) => {
                 </ListItem>
               </Tooltip>
             </NavLink>
+            <NavLink
+              to="/message"
+              onClick={() => {
+                setActiveNav("/message");
+              }}
+              exact
+              activeStyle={{
+                color: "red",
+                textDecoration: "none",
+              }}
+            >
+              <Tooltip title="Message" placement="right">
+                <ListItem button>
+                  <ListItemIcon>
+                    <EmailIcon
+                      color={activeNav === "/message" ? "secondary" : "primary"}
+                    />
+                  </ListItemIcon>
+                  <ListItemText primary={"Messages"} />
+                </ListItem>
+              </Tooltip>
+            </NavLink>
+            <NavLink
+              to="/profile"
+              onClick={() => {
+                setActiveNav("/profile");
+              }}
+              exact
+              activeStyle={{
+                color: "red",
+                textDecoration: "none",
+              }}
+            >
+              <Tooltip title="Profile" placement="right">
+                <ListItem button>
+                  <ListItemIcon>
+                    <PermContactCalendarIcon
+                      color={activeNav === "/profile" ? "secondary" : "primary"}
+                    />
+                  </ListItemIcon>
+                  <ListItemText primary={"Profile"} />
+                </ListItem>
+              </Tooltip>
+            </NavLink>
           </List>
           <Divider />
 
@@ -290,6 +313,7 @@ const Dashboard = (props) => {
             <Route exact path="/profile" component={ProfilePage} />
             <Route exact path="/traffic" component={TrafficPage} />
             <Route exact path="/stats" component={StatsPage} />
+            <Route exact path="/message" component={MessageScreen} />
             <Route component={FourOFourPage} />
           </Switch>
         </main>
