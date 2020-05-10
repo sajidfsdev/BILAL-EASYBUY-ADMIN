@@ -43,6 +43,8 @@ import EqualizerIcon from "@material-ui/icons/Equalizer";
 import StatsPage from "./../pages/Stats/Stats";
 import EmailIcon from "@material-ui/icons/Email";
 import MessageScreen from "./../pages/Messages/Messages";
+import ReportIcon from "@material-ui/icons/Report";
+import ReportPage from "./../pages/Report/Report";
 
 const MyTheme = createMuiTheme({
   overrides: {
@@ -278,6 +280,29 @@ const Dashboard = (props) => {
                 </ListItem>
               </Tooltip>
             </NavLink>
+
+            <NavLink
+              to="/report"
+              onClick={() => {
+                setActiveNav("/report");
+              }}
+              exact
+              activeStyle={{
+                color: "red",
+                textDecoration: "none",
+              }}
+            >
+              <Tooltip title="Reported Ads" placement="right">
+                <ListItem button>
+                  <ListItemIcon>
+                    <ReportIcon
+                      color={activeNav === "/report" ? "secondary" : "primary"}
+                    />
+                  </ListItemIcon>
+                  <ListItemText primary={"Reported Ads"} />
+                </ListItem>
+              </Tooltip>
+            </NavLink>
             <NavLink
               to="/profile"
               onClick={() => {
@@ -314,6 +339,7 @@ const Dashboard = (props) => {
             <Route exact path="/traffic" component={TrafficPage} />
             <Route exact path="/stats" component={StatsPage} />
             <Route exact path="/message" component={MessageScreen} />
+            <Route exact path="/report" component={ReportPage} />
             <Route component={FourOFourPage} />
           </Switch>
         </main>
