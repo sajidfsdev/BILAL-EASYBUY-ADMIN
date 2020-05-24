@@ -14,6 +14,7 @@ import axios from "axios";
 import AppConsts from "./../../Constants/Strings";
 import { useSnackbar } from "notistack";
 import { useSelector } from "react-redux";
+import sorter from "sort-isostring";
 
 //screen stats.
 const LOADING_SCREEN = "LOADING_SCREEN";
@@ -42,7 +43,8 @@ const Stats = (props) => {
 
   const handleLoadChart = (consigned) => {
     let chartData = [];
-    chartData.push(["Date", "Consigned", "Accomplished"]);
+    //["Date", "Consigned", "Accomplished"]
+    chartData.push();
     consigned.consigned.forEach((elem) => {
       let isPresent = false;
       let index = 0;
@@ -69,8 +71,20 @@ const Stats = (props) => {
         }
       }
     });
+    //doing sorting starts....
+    // let dates = [];
+    // chartData.forEach((date, index) => {
+    //   if (index != 0) dates.push(date[0]);
+    // });
 
-    setGraphData([...chartData]);
+    let sortedChartData = [
+      ["Date", "Consigned", "Accomplished"],
+      ...chartData.sort((x, y) => sorter(x[0], y[0])),
+    ];
+
+    //doing sorting ends......
+
+    setGraphData([...sortedChartData]);
   }; //...........................handle Load Chart
 
   const handleLoadStats = async () => {
